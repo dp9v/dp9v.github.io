@@ -297,11 +297,11 @@
   }
 
   /* ---------- Responsive ---------- */
-  @media (max-width: 800px){
+  @media screen and (max-width: 800px){
     .layout{ grid-template-columns: 1fr; gap: 2.4rem; }
     aside{ position: static; }
   }
-  @media (max-width: 560px){
+  @media screen and (max-width: 560px){
     .hero-inner{ flex-direction: column; align-items: flex-start; }
     .log-entry{ grid-template-columns: 1fr; }
     .entry-meta::before{ left: -0.6rem; }
@@ -316,40 +316,69 @@
       print-color-adjust: exact;
     }
 
-    /* Print as one continuous page, matching the on-screen layout
-       exactly (two-column sidebar, grid entries) instead of
-       paginating into A4/Letter sheets. Exact height is injected
-       via JS right before printing (see #print-page-size below). */
-    html, body{ background: var(--paper); }
+    body{ background: #fff; font-size: 9.5pt; }
 
-    .hero{ padding-top: 2.2rem; }
-    footer{ padding-bottom: 2.2rem; }
+    /* Pin the content to a fixed pixel width, centered on the page,
+       instead of letting it stretch/shrink to whatever width the
+       browser decides the paper is — this is what was causing the
+       layout to squeeze and the sidebar to drop below. */
+    .hero-inner, .layout, footer{
+      width: 740px;
+      max-width: 740px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .hero{ padding: 1.4rem 0 1.1rem; }
+    .avatar-wrap{ width: 52px; height: 52px; }
+    .hero h1{ font-size: 1.15rem; }
+    .hero .role{ font-size: 0.8rem; }
+
+    .layout{
+      display: grid;
+      grid-template-columns: 1fr 190px;
+      gap: 1.6rem;
+      padding: 1.6rem 0 0;
+    }
+    aside{ gap: 1.3rem; }
+    .side-block h4{ font-size: 0.68rem; }
+    .chip-cloud span{ font-size: 0.62rem; padding: 0.2rem 0.42rem; }
+    .side-item h5{ font-size: 0.78rem; }
+    .side-item p{ font-size: 0.7rem; }
+    .contact-list{ font-size: 0.7rem; }
+    .contact-list svg{ width: 12px; height: 12px; }
+
+    .summary-lines p{ font-size: 0.86rem; margin-bottom: 0.7rem; }
+
+    .log-entry{
+      grid-template-columns: 88px 1fr;
+      gap: 1.1rem;
+      padding-bottom: 1rem;
+      margin-bottom: 1rem;
+      break-inside: avoid;
+      page-break-inside: avoid;
+    }
+    .entry-meta{ font-size: 0.68rem; }
+    .entry-body h3{ font-size: 0.92rem; }
+    .entry-location{ font-size: 0.74rem; }
+    .entry-body li{ font-size: 0.8rem; margin-bottom: 0.32rem; }
+    .entry-skills span{ font-size: 0.6rem; padding: 0.12rem 0.4rem; }
+
+    .side-block{ break-inside: avoid; }
+    section{ break-inside: avoid; }
+
+    a{ text-decoration: none; }
+
+    @page{
+      size: 800px auto;
+      margin: 28px;
+    }
   }
 </style>
 </head>
 <body>
 
 <button id="print-btn" onclick="window.print()">↓ Download PDF</button>
-
-<script>
-  // Set the print page size to exactly match the rendered content
-  // height, computed right before printing, instead of guessing a
-  // huge fixed size (which can hang the print dialog).
-  (function(){
-    var styleTag = null;
-    function setPrintPageSize(){
-      var width = document.documentElement.scrollWidth;
-      var height = document.documentElement.scrollHeight;
-      if(!styleTag){
-        styleTag = document.createElement('style');
-        styleTag.id = 'print-page-size';
-        document.head.appendChild(styleTag);
-      }
-      styleTag.textContent = '@media print { @page { size: ' + width + 'px ' + (height + 40) + 'px; margin: 0; } }';
-    }
-    window.addEventListener('beforeprint', setPrintPageSize);
-  })();
-</script>
 
 <header class="hero">
   <div class="hero-inner">
@@ -397,7 +426,7 @@
           </ul>
           <div class="entry-skills">
             <span>Azure</span><span>ARM Templates</span><span>Infrastructure as Code</span><span>Application Insights</span>
-            <span>PySpark</span><span>Azure Synapse</span><span>C# / .NET</span><span>React</span><span>Github Copilot</span>
+            <span>PySpark</span><span>Azure Synapse</span><span>C# / .NET</span><span>React</span>
             <span>Database Design</span><span>Team Leadership</span><span>EventHub</span><span>Distributed Systems</span><span>KQL</span>
           </div>
         </div>
