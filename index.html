@@ -310,13 +310,24 @@
   /* ---------- Print ---------- */
   @media print{
     #print-btn{ display: none; }
-    body{ background: #fff; }
-    .layout{ grid-template-columns: 1fr 240px; gap: 2rem; padding-top: 1.6rem; }
-    aside{ position: static; }
-    section{ break-inside: avoid; }
-    .log-entry{ break-inside: avoid; padding-bottom: 1rem; margin-bottom: 1rem; }
-    a{ text-decoration: none; }
-    @page{ margin: 14mm 12mm; }
+
+    *{
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+
+    /* Print as one continuous page, matching the on-screen layout
+       exactly (two-column sidebar, grid entries) instead of
+       paginating into A4/Letter sheets. */
+    html, body{ background: var(--paper); }
+
+    @page{
+      size: 1180px 100000px;
+      margin: 0;
+    }
+
+    .hero{ padding-top: 2.2rem; }
+    footer{ padding-bottom: 2.2rem; }
   }
 </style>
 </head>
