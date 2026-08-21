@@ -81,8 +81,8 @@
   }
   .avatar-wrap{
     flex: none;
-    width: 68px;
-    height: 68px;
+    width: 96px;
+    height: 96px;
     border-radius: 50%;
     border: 1px solid var(--rule);
     padding: 3px;
@@ -92,6 +92,7 @@
     height: 100%;
     border-radius: 50%;
     object-fit: cover;
+    object-position: center;
     display: block;
   }
   #avatar-fallback{
@@ -101,7 +102,7 @@
     background: var(--paper-alt);
     font-family: var(--mono);
     font-weight: 600;
-    font-size: 0.95rem;
+    font-size: 1.2rem;
     letter-spacing: 0.03em;
     color: var(--text-soft);
   }
@@ -307,78 +308,83 @@
     .entry-meta::before{ left: -0.6rem; }
   }
 
-  /* ---------- Print ---------- */
-  @media print{
-    #print-btn{ display: none; }
+</style>
 
-    *{
-      -webkit-print-color-adjust: exact;
-      print-color-adjust: exact;
-    }
+<!-- Print styles live in their own sheet so they can be switched on
+     temporarily on screen (media="all") to measure the real printed
+     height before printing. -->
+<style id="print-css" media="print">
+  #print-btn{ display: none !important; }
 
-    body{ background: #fff; font-size: 9.5pt; }
+  *{
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
 
-    /* Pin the content to a fixed pixel width, centered on the page,
-       instead of letting it stretch/shrink to whatever width the
-       browser decides the paper is — this is what was causing the
-       layout to squeeze and the sidebar to drop below. */
-    .hero-inner, .layout, footer{
-      width: 740px;
-      max-width: 740px;
-      margin-left: auto;
-      margin-right: auto;
-    }
+  html, body{ margin: 0; padding: 0; }
+  body{ background: #fff; font-size: 9.5pt; }
 
-    .hero{ padding: 1.4rem 0 1.1rem; }
-    .avatar-wrap{ width: 52px; height: 52px; }
-    .hero h1{ font-size: 1.15rem; }
-    .hero .role{ font-size: 0.8rem; }
+  /* Pin the content to a fixed pixel width, centered on the page,
+     instead of letting it stretch/shrink to whatever width the
+     browser decides the paper is — this is what was causing the
+     layout to squeeze and the sidebar to drop below. */
+  .hero-inner, .layout, footer{
+    width: 740px;
+    max-width: 740px;
+    margin-left: auto;
+    margin-right: auto;
+  }
 
-    .layout{
-      display: grid;
-      grid-template-columns: 1fr 190px;
-      gap: 1.6rem;
-      padding: 1.6rem 0 0;
-    }
-    aside{ gap: 1.3rem; }
-    .side-block h4{ font-size: 0.68rem; }
-    .chip-cloud span{ font-size: 0.62rem; padding: 0.2rem 0.42rem; }
-    .side-item h5{ font-size: 0.78rem; }
-    .side-item p{ font-size: 0.7rem; }
-    .contact-list{ font-size: 0.7rem; }
-    .contact-list svg{ width: 12px; height: 12px; }
+  .hero{ padding: 1.4rem 0 1.1rem; }
+  .avatar-wrap{ width: 76px; height: 76px; }
+  .hero h1{ font-size: 1.15rem; }
+  .hero .role{ font-size: 0.8rem; }
 
-    .summary-lines p{ font-size: 0.86rem; margin-bottom: 0.7rem; }
+  .layout{
+    display: grid;
+    grid-template-columns: 1fr 190px;
+    gap: 1.6rem;
+    padding: 1.6rem 0 0;
+  }
+  aside{ gap: 1.3rem; }
+  .side-block h4{ font-size: 0.68rem; }
+  .chip-cloud span{ font-size: 0.62rem; padding: 0.2rem 0.42rem; }
+  .side-item h5{ font-size: 0.78rem; }
+  .side-item p{ font-size: 0.7rem; }
+  .contact-list{ font-size: 0.7rem; }
+  .contact-list svg{ width: 12px; height: 12px; }
 
-    .log-entry{
-      grid-template-columns: 88px 1fr;
-      gap: 1.1rem;
-      padding-bottom: 1rem;
-      margin-bottom: 1rem;
-      break-inside: avoid;
-      page-break-inside: avoid;
-    }
-    .entry-meta{ font-size: 0.68rem; }
-    .entry-body h3{ font-size: 0.92rem; }
-    .entry-location{ font-size: 0.74rem; }
-    .entry-body li{ font-size: 0.8rem; margin-bottom: 0.32rem; }
-    .entry-skills span{ font-size: 0.6rem; padding: 0.12rem 0.4rem; }
+  .summary-lines p{ font-size: 0.86rem; margin-bottom: 0.7rem; }
 
-    .side-block{ break-inside: avoid; }
-    section{ break-inside: avoid; }
+  .log-entry{
+    grid-template-columns: 88px 1fr;
+    gap: 1.1rem;
+    padding-bottom: 1rem;
+    margin-bottom: 1rem;
+  }
+  .entry-meta{ font-size: 0.68rem; }
+  .entry-body h3{ font-size: 0.92rem; }
+  .entry-location{ font-size: 0.74rem; }
+  .entry-body li{ font-size: 0.8rem; margin-bottom: 0.32rem; }
+  .entry-skills span{ font-size: 0.6rem; padding: 0.12rem 0.4rem; }
 
-    a{ text-decoration: none; }
+  footer{ padding-bottom: 0; }
 
-    @page{
-      size: 800px auto;
-      margin: 28px;
-    }
+  a{ text-decoration: none; }
+</style>
+
+<!-- Page box: height is filled in at print time so the whole resume
+     fits on a single continuous page (no page breaks). -->
+<style id="page-css" media="print">
+  @page{
+    size: 796px 1123px;
+    margin: 28px;
   }
 </style>
 </head>
 <body>
 
-<button id="print-btn" onclick="window.print()">↓ Download PDF</button>
+<button id="print-btn" onclick="printResume()">↓ Download PDF</button>
 
 <header class="hero">
   <div class="hero-inner">
@@ -425,8 +431,8 @@
             <li>Used Kusto (KQL) for log analytics and telemetry querying</li>
           </ul>
           <div class="entry-skills">
-            <span>Azure</span><span>ARM Templates</span><span>Infrastructure as Code</span><span>Application Insights</span>
-            <span>PySpark</span><span>Azure Synapse</span><span>C# / .NET</span><span>React</span>
+            <span>Azure</span><span>C# / .NET</span><span>React</span><span>GitHub Copilot</span><span>Application Insights</span>
+            <span>PySpark</span><span>Azure Synapse</span><span>ARM Templates</span>
             <span>Database Design</span><span>Team Leadership</span><span>EventHub</span><span>Distributed Systems</span><span>KQL</span>
           </div>
         </div>
@@ -667,6 +673,90 @@
 <footer>
   Last updated August 2026 · Built as a static page for GitHub Pages
 </footer>
+
+<script>
+  (function(){
+    var PAGE_MARGIN = 28;   // must match @page margin
+    var CONTENT_WIDTH = 740; // must match the print width of .layout / .hero-inner
+    var SAFETY = 36;         // slack so rounding never spills onto a 2nd page
+    var sized = false;
+    var printCss = document.getElementById('print-css');
+    var pageCss = document.getElementById('page-css');
+
+    function measuredHeight(){
+      var doc = document.documentElement;
+      var last = document.querySelector('footer');
+      var h = Math.max(
+        doc.scrollHeight,
+        document.body.scrollHeight,
+        last ? Math.ceil(last.getBoundingClientRect().bottom + window.scrollY) : 0
+      );
+      return Math.ceil(h);
+    }
+
+    function sizePageToContent(){
+      // Apply the print sheet on screen so the printed height can be
+      // measured, then size the page box to fit everything on one page.
+      printCss.media = 'all';
+      var height;
+      try{
+        void document.body.offsetHeight; // force reflow
+        height = measuredHeight();
+      } finally {
+        printCss.media = 'print';
+      }
+
+      // Printed layout can end up a fraction taller than the on-screen
+      // measurement (pt/px rounding, font metrics), and even one extra
+      // pixel spills into a second page — so add slack and snap the page
+      // height up to a whole number of points (4px = 3pt).
+      var pageHeight = height + PAGE_MARGIN * 2 + SAFETY;
+      pageHeight = Math.ceil(pageHeight / 4) * 4;
+
+      pageCss.textContent =
+        '@page{ size: ' + (CONTENT_WIDTH + PAGE_MARGIN * 2) + 'px ' +
+        pageHeight + 'px; margin: ' + PAGE_MARGIN + 'px; }';
+      sized = true;
+    }
+
+    window.printResume = function(){
+      var run = function(){
+        sized = false;
+        try{ sizePageToContent(); } catch(e){ /* fall back to default page box */ }
+        window.print();
+      };
+      if (document.fonts && document.fonts.ready){
+        document.fonts.ready.then(run, run);
+      } else {
+        run();
+      }
+    };
+
+    // Browsers that trigger printing on their own (Ctrl+P) still get one page.
+    // Measuring while the browser is already in print layout is unreliable,
+    // so only do it if the page box has not been sized yet.
+    window.addEventListener('beforeprint', function(){
+      if (sized) return;
+      try{ sizePageToContent(); } catch(e){}
+    });
+
+    // Pre-size once the page (and web fonts) have settled.
+    var initial = function(){
+      requestAnimationFrame(function(){
+        try{ sizePageToContent(); } catch(e){}
+      });
+    };
+    if (document.fonts && document.fonts.ready){
+      document.fonts.ready.then(initial, initial);
+    } else {
+      window.addEventListener('load', initial);
+    }
+
+    // Content height can still change afterwards (late image load, resize).
+    window.addEventListener('load', function(){ sized = false; initial(); });
+    window.addEventListener('resize', function(){ sized = false; });
+  })();
+</script>
 
 </body>
 </html>
