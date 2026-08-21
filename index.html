@@ -1,21 +1,616 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Example Page</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dmitrii Polkovnikov — Software Engineer</title>
+<meta name="description" content="Dmitrii Polkovnikov — Software Engineer, backend & cloud systems, Prague, Czech Republic.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink: #10151c;
+    --paper: #f6f4ef;
+    --paper-alt: #edeae2;
+    --paper-text: #1b1f24;
+    --text-soft: #5b6470;
+    --rule: #d8d3c7;
+    --accent: #2fa588;
+    --accent-dim: #1f8d73;
+    --amber: #b5822a;
+    --mono: 'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+    --sans: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    --max: 980px;
+  }
 
-    <!-- Подключение файлов стилей -->
-    <link rel="stylesheet" href="pages/css/bootstrap.min.css">
-    <link rel="stylesheet" href="pages/css/styles.css"> <!-- Ваш собственный CSS файл -->
+  *{ box-sizing: border-box; }
+  html{ scroll-behavior: smooth; }
+  body{
+    margin:0;
+    background: var(--paper);
+    color: var(--paper-text);
+    font-family: var(--sans);
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+  }
+  a{ color: inherit; }
 
-    <!-- Подключение файлов скриптов -->
+  .eyebrow{
+    font-family: var(--mono);
+    font-size: 0.74rem;
+    letter-spacing: 0.06em;
+    color: var(--accent-dim);
+    text-transform: lowercase;
+    margin: 0 0 1.1rem 0;
+    font-weight: 600;
+  }
+
+  /* ---------- Print button ---------- */
+  #print-btn{
+    position: fixed;
+    top: 18px;
+    right: 18px;
+    z-index: 50;
+    font-family: var(--mono);
+    font-size: 0.76rem;
+    letter-spacing: 0.03em;
+    background: var(--ink);
+    color: var(--paper);
+    border: none;
+    padding: 0.55rem 0.95rem;
+    border-radius: 3px;
+    cursor: pointer;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.15);
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+  }
+  #print-btn:hover{ transform: translateY(-1px); }
+  #print-btn:focus-visible{ outline: 2px solid var(--accent); outline-offset: 2px; }
+
+  /* ---------- Hero (quiet) ---------- */
+  .hero{
+    border-bottom: 1px solid var(--rule);
+    padding: 2.2rem 1.5rem 1.9rem;
+  }
+  .hero-inner{
+    max-width: var(--max);
+    margin: 0 auto;
+    display: flex;
+    gap: 1.5rem;
+    align-items: center;
+  }
+  .avatar-wrap{
+    flex: none;
+    width: 68px;
+    height: 68px;
+    border-radius: 50%;
+    border: 1px solid var(--rule);
+    padding: 3px;
+  }
+  #avatar, #avatar-fallback{
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+    display: block;
+  }
+  #avatar-fallback{
+    display: none;
+    align-items: center;
+    justify-content: center;
+    background: var(--paper-alt);
+    font-family: var(--mono);
+    font-weight: 600;
+    font-size: 0.95rem;
+    letter-spacing: 0.03em;
+    color: var(--text-soft);
+  }
+  .hero-text{ min-width: 0; }
+  .hero h1{
+    font-family: var(--sans);
+    font-size: clamp(1.35rem, 3vw, 1.65rem);
+    font-weight: 600;
+    letter-spacing: -0.005em;
+    margin: 0 0 0.2rem;
+  }
+  .hero .role{
+    font-size: 0.94rem;
+    color: var(--text-soft);
+    margin: 0 0 0.7rem;
+  }
+  .contact-list{
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    padding: 0;
+    margin: 0;
+    font-family: var(--mono);
+    font-size: 0.78rem;
+    color: var(--text-soft);
+  }
+  .contact-list li{ display: flex; align-items: center; gap: 0.55rem; }
+  .contact-list svg{
+    flex: none;
+    width: 15px;
+    height: 15px;
+    color: var(--accent-dim);
+  }
+  .contact-list a{ text-decoration: none; border-bottom: 1px solid transparent; word-break: break-word; }
+  .contact-list a:hover{ border-color: var(--accent-dim); color: var(--accent-dim); }
+
+  /* ---------- Layout ---------- */
+  .layout{
+    max-width: var(--max);
+    margin: 0 auto;
+    padding: 3rem 1.5rem 1rem;
+    display: grid;
+    grid-template-columns: 1fr 280px;
+    gap: 3.2rem;
+    align-items: start;
+  }
+  main section{ margin-bottom: 3.2rem; }
+  main section:last-child{ margin-bottom: 0; }
+
+  .summary-lines{ max-width: 62ch; }
+  .summary-lines p{
+    margin: 0 0 1rem;
+    padding-left: 0.9rem;
+    border-left: 2px solid var(--rule);
+    font-size: 0.96rem;
+  }
+  .summary-lines p:last-child{ margin-bottom: 0; }
+
+  /* ---------- Experience log ---------- */
+  .log-entry{
+    position: relative;
+    display: grid;
+    grid-template-columns: 118px 1fr;
+    gap: 1.5rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid var(--rule);
+    margin-bottom: 2rem;
+  }
+  .log-entry:last-child{ border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+
+  .entry-meta{
+    font-family: var(--mono);
+    font-size: 0.74rem;
+    color: var(--text-soft);
+    padding-top: 0.15rem;
+    position: relative;
+  }
+  .entry-meta::before{
+    content: "";
+    position: absolute;
+    left: -0.85rem;
+    top: 0.35rem;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--accent);
+  }
+  .entry-date{ display: block; line-height: 1.4; }
+  .entry-tag{
+    display: inline-block;
+    margin-top: 0.4rem;
+    font-size: 0.66rem;
+    color: var(--accent-dim);
+    background: rgba(47,165,136,0.1);
+    border: 1px solid rgba(47,165,136,0.25);
+    padding: 0.1rem 0.4rem;
+    border-radius: 3px;
+  }
+
+  .entry-body h3{
+    font-family: var(--sans);
+    font-size: 1.04rem;
+    font-weight: 600;
+    margin: 0 0 0.15rem;
+  }
+  .entry-company{ color: var(--accent-dim); font-weight: 600; }
+  .entry-location{
+    margin: 0 0 0.85rem;
+    font-size: 0.83rem;
+    color: var(--text-soft);
+  }
+  .entry-body ul{
+    margin: 0 0 1rem;
+    padding-left: 1.1rem;
+  }
+  .entry-body li{
+    margin-bottom: 0.42rem;
+    font-size: 0.92rem;
+  }
+  .entry-body li::marker{ color: var(--accent-dim); }
+
+  .entry-skills{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+  .entry-skills span{
+    font-family: var(--mono);
+    font-size: 0.68rem;
+    color: var(--text-soft);
+    border: 1px solid var(--rule);
+    padding: 0.16rem 0.48rem;
+    border-radius: 999px;
+    background: var(--paper-alt);
+  }
+
+  /* ---------- Sidebar ---------- */
+  aside{
+    display: flex;
+    flex-direction: column;
+    gap: 2.2rem;
+  }
+  .side-block h4{
+    font-family: var(--mono);
+    font-size: 0.74rem;
+    letter-spacing: 0.06em;
+    text-transform: lowercase;
+    color: var(--accent-dim);
+    margin: 0 0 0.85rem;
+    font-weight: 600;
+  }
+
+  .chip-cloud{ display: flex; flex-wrap: wrap; gap: 0.4rem; }
+  .chip-cloud span{
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    padding: 0.28rem 0.55rem;
+    border-radius: 4px;
+    background: var(--paper-alt);
+    border: 1px solid var(--rule);
+    color: var(--paper-text);
+  }
+
+  .side-list{ display: flex; flex-direction: column; gap: 0.9rem; }
+  .side-item h5{
+    font-size: 0.86rem;
+    font-weight: 600;
+    margin: 0 0 0.1rem;
+  }
+  .side-item p{
+    margin: 0;
+    font-size: 0.78rem;
+    color: var(--text-soft);
+    font-family: var(--mono);
+  }
+
+  .side-block p.plain{
+    margin: 0;
+    font-size: 0.86rem;
+    color: var(--paper-text);
+    line-height: 1.6;
+  }
+
+  footer{
+    max-width: var(--max);
+    margin: 0 auto;
+    padding: 1.5rem 1.5rem 3rem;
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    color: var(--text-soft);
+    border-top: 1px solid var(--rule);
+  }
+
+  /* ---------- Responsive ---------- */
+  @media (max-width: 800px){
+    .layout{ grid-template-columns: 1fr; gap: 2.4rem; }
+    aside{ position: static; }
+  }
+  @media (max-width: 560px){
+    .hero-inner{ flex-direction: column; align-items: flex-start; }
+    .log-entry{ grid-template-columns: 1fr; }
+    .entry-meta::before{ left: -0.6rem; }
+  }
+
+  /* ---------- Print ---------- */
+  @media print{
+    #print-btn{ display: none; }
+    body{ background: #fff; }
+    .layout{ grid-template-columns: 1fr 240px; gap: 2rem; padding-top: 1.6rem; }
+    aside{ position: static; }
+    section{ break-inside: avoid; }
+    .log-entry{ break-inside: avoid; padding-bottom: 1rem; margin-bottom: 1rem; }
+    a{ text-decoration: none; }
+    @page{ margin: 14mm 12mm; }
+  }
+</style>
 </head>
 <body>
-    <!-- Основное содержание с блоком canvas -->
-    <main>
-        <a  href="/pages">Перейти к странице с графами</a>
-    </main>
+
+<button id="print-btn" onclick="window.print()">↓ Export PDF</button>
+
+<header class="hero">
+  <div class="hero-inner">
+    <div class="avatar-wrap">
+      <img id="avatar" src="photo.jpg" alt="Dmitrii Polkovnikov"
+           onerror="this.style.display='none'; document.getElementById('avatar-fallback').style.display='flex';">
+      <div id="avatar-fallback">DP</div>
+    </div>
+    <div class="hero-text">
+      <h1>Dmitrii Polkovnikov</h1>
+      <p class="role">Software Engineer — Backend &amp; Cloud Systems</p>
+    </div>
+  </div>
+</header>
+
+<div class="layout">
+  <main>
+
+    <section class="summary">
+      <p class="eyebrow">// summary</p>
+      <div class="summary-lines">
+        <p>Building and operating production systems at Microsoft — Azure infrastructure, data pipelines, and internal developer tooling.</p>
+        <p>10+ years shipping Java / Spring services for high-load consumer platforms and B2B banking systems, plus hands-on work with .NET and the Azure stack.</p>
+        <p>M.Sc. in Applied Mathematics and Informatics, with a habit of owning problems end-to-end — architecture, on-call support, and mentoring included.</p>
+      </div>
+    </section>
+
+    <section class="experience">
+      <p class="eyebrow">// experience</p>
+
+      <article class="log-entry">
+        <div class="entry-meta">
+          <span class="entry-date">2022 — present</span>
+        </div>
+        <div class="entry-body">
+          <h3>Software Engineer II <span class="entry-company">· Microsoft</span></h3>
+          <p class="entry-location">Prague (Remote)</p>
+          <ul>
+            <li>Stabilized project infrastructure by migrating existing Azure resources to ARM templates, accelerating new environment provisioning and testing</li>
+            <li>Implemented monitoring for internal systems using Azure Application Insights, reducing time to detect and resolve incidents</li>
+            <li>Built data-processing pipelines with PySpark and Azure Synapse to detect data-transfer violations within and outside the EU, handling sources ranging from thousands to tens of millions of records</li>
+            <li>Developed an internal tool in C# (.NET) and React for tracking dependencies between Azure services and components, used by multiple infrastructure teams to prepare cloud deployments in new regions; led a major database schema refactoring for the project, managing a team of 3 engineers</li>
+            <li>Designed and built, as part of a team, a system for deploying AI models into private clouds with legally restricted direct developer access, supporting ~4–5 deployments per week through on-call rotation and asynchronous communication via Azure EventHub</li>
+            <li>Used Kusto (KQL) for log analytics and telemetry querying</li>
+          </ul>
+          <div class="entry-skills">
+            <span>Azure</span><span>ARM Templates</span><span>Infrastructure as Code</span><span>Application Insights</span>
+            <span>PySpark</span><span>Azure Synapse</span><span>C# / .NET</span><span>React</span>
+            <span>Database Design</span><span>Team Leadership</span><span>EventHub</span><span>Distributed Systems</span><span>KQL</span>
+          </div>
+        </div>
+      </article>
+
+      <article class="log-entry">
+        <div class="entry-meta">
+          <span class="entry-date">2023 — present</span>
+          <span class="entry-tag">part-time</span>
+        </div>
+        <div class="entry-body">
+          <h3>Java Mentor <span class="entry-company">· Hexlet Online School</span></h3>
+          <p class="entry-location">Remote</p>
+          <ul>
+            <li>Recorded a Java OOP course and conducted live sessions on various Java topics</li>
+            <li>Reviewed and provided feedback on numerous student projects</li>
+          </ul>
+          <div class="entry-skills">
+            <span>Java</span><span>OOP</span><span>Teaching &amp; Mentoring</span><span>Code Review</span>
+          </div>
+        </div>
+      </article>
+
+      <article class="log-entry">
+        <div class="entry-meta">
+          <span class="entry-date">2020 — 2022</span>
+        </div>
+        <div class="entry-body">
+          <h3>Java Developer <span class="entry-company">· Alfa-Bank</span></h3>
+          <p class="entry-location">Remote</p>
+          <ul>
+            <li>Developed and deployed backend services for the B2C mobile banking application at Alfa-Bank, one of Russia's largest private banks (ranked #2 by market position), serving a large-scale user base</li>
+            <li>Contributed to internal technical libraries and Spring starters adopted organization-wide by 20+ teams, improving development efficiency and standardizing practices across projects</li>
+            <li>Used Kafka for processing log data streams and MongoDB for data storage</li>
+            <li>Identified and fixed issues in deployment scripts for the logging infrastructure</li>
+            <li>Took on DevOps responsibilities, using Ansible to automate server infrastructure provisioning</li>
+            <li>Researched and resolved bugs across backend services</li>
+          </ul>
+          <div class="entry-skills">
+            <span>Java</span><span>Spring Framework</span><span>Microservices</span><span>Kafka</span>
+            <span>MongoDB</span><span>Ansible</span><span>DevOps</span><span>Distributed Systems</span>
+          </div>
+        </div>
+      </article>
+
+      <article class="log-entry">
+        <div class="entry-meta">
+          <span class="entry-date">2019 — 2020</span>
+        </div>
+        <div class="entry-body">
+          <h3>Java Developer <span class="entry-company">· Yandex (Kinopoisk.HD)</span></h3>
+          <p class="entry-location">Russia</p>
+          <ul>
+            <li>Implemented caching for the main screen data loading, reducing load time from ~10 seconds to under 1 second</li>
+            <li>Designed and built a bundle-purchase feature combining movie purchases with service subscriptions, architecting the integration of two systems with different billing models while maintaining data consistency</li>
+            <li>Developed and launched multiple features for a high-load VOD service handling up to 1,000 RPS on peak API endpoints</li>
+            <li>Identified and fixed critical bugs to improve system stability</li>
+            <li>Provided daily on-call support for two major services: Kinopoisk (a key, fast-growing VOD platform) and Yandex.TV Guide (a major ad-revenue generator)</li>
+            <li>Conducted code reviews and managed large pull requests to maintain high code quality</li>
+            <li>Supported and deployed production applications built on Java, Spring, PostgreSQL, and Cassandra</li>
+          </ul>
+          <div class="entry-skills">
+            <span>Java</span><span>Spring Framework</span><span>PostgreSQL</span><span>Cassandra</span>
+            <span>High-Load Systems</span><span>System Architecture</span><span>Billing Integration</span><span>On-Call</span>
+          </div>
+        </div>
+      </article>
+
+      <article class="log-entry">
+        <div class="entry-meta">
+          <span class="entry-date">2017 — 2019</span>
+        </div>
+        <div class="entry-body">
+          <h3>Java Developer <span class="entry-company">· I-Teco New Technologies</span></h3>
+          <p class="entry-location">Innopolis, Russia</p>
+          <ul>
+            <li>Developed a loan and mortgage management application for a credit organization</li>
+            <li>Designed and implemented several microservices for a large B2B banking system</li>
+            <li>Built front-end functionality using AngularJS and React</li>
+            <li>Wrote unit and integration tests with JUnit 5</li>
+            <li>Mentored an intern and conducted code reviews</li>
+          </ul>
+          <div class="entry-skills">
+            <span>Java</span><span>Spring Framework</span><span>EJB 3.0</span><span>Microservices</span>
+            <span>AngularJS</span><span>React</span><span>JUnit 5</span><span>Mentoring</span>
+          </div>
+        </div>
+      </article>
+
+      <article class="log-entry">
+        <div class="entry-meta">
+          <span class="entry-date">2014 — 2015</span>
+        </div>
+        <div class="entry-body">
+          <h3>Software Engineer <span class="entry-company">· Information Center of Irkutsk Region</span></h3>
+          <p class="entry-location">Irkutsk, Russia</p>
+          <ul>
+            <li>Developed and maintained the official website of the Irkutsk Region Administration</li>
+            <li>Contributed to an Electronic Document Management (EDM) system</li>
+            <li>Built automation scripts in Python and front-end features using HTML/CSS/JavaScript</li>
+            <li>Worked with the Bitrix PHP framework and managed open-source solutions</li>
+          </ul>
+          <div class="entry-skills">
+            <span>PHP</span><span>Bitrix</span><span>Python</span><span>HTML/CSS/JS</span><span>Automation</span>
+          </div>
+        </div>
+      </article>
+
+      <article class="log-entry">
+        <div class="entry-meta">
+          <span class="entry-date">2013 — 2014</span>
+        </div>
+        <div class="entry-body">
+          <h3>Python Developer <span class="entry-company">· Center of Web Decisions</span></h3>
+          <p class="entry-location">Irkutsk, Russia</p>
+          <ul>
+            <li>Developed business websites and e-commerce platforms using Django</li>
+            <li>Migrated legacy PHP-based sites to Python for improved maintainability</li>
+            <li>Managed VDS infrastructure on Ubuntu</li>
+            <li>Worked with SVN and MySQL</li>
+          </ul>
+          <div class="entry-skills">
+            <span>Python</span><span>Django</span><span>MySQL</span><span>Ubuntu</span><span>SVN</span>
+          </div>
+        </div>
+      </article>
+
+      <article class="log-entry">
+        <div class="entry-meta">
+          <span class="entry-date">2011 — 2013</span>
+        </div>
+        <div class="entry-body">
+          <h3>Data Engineer <span class="entry-company">· Institute of Education Development of Irkutsk Region</span></h3>
+          <p class="entry-location">Irkutsk, Russia</p>
+          <ul>
+            <li>Built a student database and SQL-based reporting system for exam analytics</li>
+            <li>Developed applications for education quality monitoring using C# (WinForms) and Java (Swing)</li>
+            <li>Worked with MS SQL Server, optimizing queries and data retrieval</li>
+          </ul>
+          <div class="entry-skills">
+            <span>C# / WinForms</span><span>Java / Swing</span><span>MS SQL Server</span><span>SQL</span>
+          </div>
+        </div>
+      </article>
+
+    </section>
+  </main>
+
+  <aside>
+    <div class="side-block">
+      <h4>// contact</h4>
+      <ul class="contact-list">
+        <li>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22 6 12 13 2 6"></polyline></svg>
+          <a href="mailto:Polkovnikov13@gmail.com">Polkovnikov13@gmail.com</a>
+        </li>
+        <li>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+          <span>+420 777 426 356</span>
+        </li>
+        <li>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+          <span>Prague, Czech Republic</span>
+        </li>
+        <li>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-4.3 1.4-4.3-2.5-6-3m12 5v-3.5c0-1 .1-1.4-.5-2 2.8-.3 5.5-1.4 5.5-6a4.6 4.6 0 0 0-1.3-3.2 4.2 4.2 0 0 0-.1-3.2s-1.1-.3-3.5 1.3a12.3 12.3 0 0 0-6.2 0C6.5 2.8 5.4 3.1 5.4 3.1a4.2 4.2 0 0 0-.1 3.2A4.6 4.6 0 0 0 4 9.5c0 4.6 2.7 5.7 5.5 6-.6.6-.6 1.2-.5 2V21"></path></svg>
+          <a href="https://github.com/dp9v" target="_blank" rel="noopener">github.com/dp9v</a>
+        </li>
+        <li>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
+          <a href="https://www.linkedin.com/in/dmitrii-polkovnikov" target="_blank" rel="noopener">LinkedIn</a>
+        </li>
+        <li>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+          <a href="https://t.me/d_p9v" target="_blank" rel="noopener">@d_p9v</a>
+        </li>
+      </ul>
+    </div>
+
+    <div class="side-block">
+      <h4>// core_stack</h4>
+      <div class="chip-cloud">
+        <span>Java</span><span>Spring</span><span>Azure</span><span>C# / .NET</span>
+        <span>TypeScript</span><span>React</span><span>PySpark</span><span>Azure Synapse</span><span>KQL</span>
+        <span>Distributed Systems</span><span>Microservices</span><span>Kafka</span><span>MongoDB</span>
+        <span>PostgreSQL</span><span>Cassandra</span><span>Ansible</span><span>DevOps</span>
+        <span>Golang</span><span>Python</span>
+      </div>
+    </div>
+
+    <div class="side-block">
+      <h4>// education</h4>
+      <div class="side-list">
+        <div class="side-item">
+          <h5>Irkutsk State University</h5>
+          <p>M.Sc., Applied Math &amp; Informatics · 2010–2015</p>
+        </div>
+        <div class="side-item">
+          <h5>Innopolis University</h5>
+          <p>Java Development · 2017</p>
+        </div>
+        <div class="side-item">
+          <h5>Yandex School of Data Analysis</h5>
+          <p>Golang · 2020</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-block">
+      <h4>// certifications</h4>
+      <div class="side-list">
+        <div class="side-item">
+          <h5>Azure Developer Associate</h5>
+          <p>Microsoft · 2023</p>
+        </div>
+        <div class="side-item">
+          <h5>Java SE 8 OCA</h5>
+          <p>Oracle · 2016</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-block">
+      <h4>// languages</h4>
+      <p class="plain">Russian — Native<br>English — Professional<br>Czech — Conversational</p>
+    </div>
+
+    <div class="side-block">
+      <h4>// interests</h4>
+      <div class="chip-cloud">
+        <span>Hiking</span><span>Boxing</span><span>Climbing</span><span>Cycling</span>
+        <span>Snowboarding</span><span>Video games</span><span>Board games</span>
+      </div>
+    </div>
+  </aside>
+</div>
+
+<footer>
+  Last updated August 2026 · Built as a static page for GitHub Pages
+</footer>
 
 </body>
 </html>
