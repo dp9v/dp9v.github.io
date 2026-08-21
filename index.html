@@ -318,13 +318,9 @@
 
     /* Print as one continuous page, matching the on-screen layout
        exactly (two-column sidebar, grid entries) instead of
-       paginating into A4/Letter sheets. */
+       paginating into A4/Letter sheets. Exact height is injected
+       via JS right before printing (see #print-page-size below). */
     html, body{ background: var(--paper); }
-
-    @page{
-      size: 1180px 100000px;
-      margin: 0;
-    }
 
     .hero{ padding-top: 2.2rem; }
     footer{ padding-bottom: 2.2rem; }
@@ -334,6 +330,26 @@
 <body>
 
 <button id="print-btn" onclick="window.print()">↓ Download PDF</button>
+
+<script>
+  // Set the print page size to exactly match the rendered content
+  // height, computed right before printing, instead of guessing a
+  // huge fixed size (which can hang the print dialog).
+  (function(){
+    var styleTag = null;
+    function setPrintPageSize(){
+      var width = document.documentElement.scrollWidth;
+      var height = document.documentElement.scrollHeight;
+      if(!styleTag){
+        styleTag = document.createElement('style');
+        styleTag.id = 'print-page-size';
+        document.head.appendChild(styleTag);
+      }
+      styleTag.textContent = '@media print { @page { size: ' + width + 'px ' + (height + 40) + 'px; margin: 0; } }';
+    }
+    window.addEventListener('beforeprint', setPrintPageSize);
+  })();
+</script>
 
 <header class="hero">
   <div class="hero-inner">
@@ -381,7 +397,7 @@
           </ul>
           <div class="entry-skills">
             <span>Azure</span><span>ARM Templates</span><span>Infrastructure as Code</span><span>Application Insights</span>
-            <span>PySpark</span><span>Azure Synapse</span><span>C# / .NET</span><span>React</span>
+            <span>PySpark</span><span>Azure Synapse</span><span>C# / .NET</span><span>React</span><span>Github Copilot</span>
             <span>Database Design</span><span>Team Leadership</span><span>EventHub</span><span>Distributed Systems</span><span>KQL</span>
           </div>
         </div>
