@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Todo list</title>
+  <link rel="stylesheet" href="/todo/styles.css">
+  <script src="/todo/app.js" defer></script>
+</head>
+<body>
+  <main>
+    <header>
+      <p class="eyebrow">todo / local</p>
+      <h1>Todo list</h1>
+      <p class="muted">Saved only in this browser. No sync. Clearing site data deletes your tasks.</p>
+    </header>
+
+    <noscript>Enable JavaScript to use the todo list.</noscript>
+    <p id="error" class="error" role="alert" hidden></p>
+
+    <div class="composer-toolbar">
+      <button type="button" id="toggle-form" aria-expanded="false" aria-controls="task-panel">New task</button>
+    </div>
+    <section id="task-panel" class="panel" aria-labelledby="form-heading" hidden>
+      <h2 id="form-heading">New task</h2>
+      <form id="task-form">
+        <fieldset id="form-fields">
+          <div class="form-grid">
+            <div class="title-field">
+              <label for="title">Title</label>
+              <input id="title" name="title" maxlength="200" required autocomplete="off" placeholder="What needs to be done?">
+            </div>
+            <div>
+              <label for="category">Category</label>
+              <input id="category" name="category" list="categories" maxlength="80" autocomplete="off" placeholder="e.g. Personal">
+              <datalist id="categories"></datalist>
+            </div>
+            <div>
+              <label for="priority">Priority</label>
+              <select id="priority" name="priority">
+                <option value="high">High</option>
+                <option value="medium" selected>Medium</option>
+                <option value="low">Low</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-footer">
+            <div>
+              <label for="description">Description <span class="muted">(optional)</span></label>
+              <textarea id="description" name="description" rows="1" maxlength="5000" placeholder="Details, notes, links"></textarea>
+            </div>
+            <div class="form-actions">
+              <button type="submit" id="save-button">Add task</button>
+              <button type="button" id="cancel-edit" class="secondary" hidden>Cancel</button>
+            </div>
+          </div>
+        </fieldset>
+      </form>
+    </section>
+
+    <section aria-labelledby="list-heading">
+      <div class="list-header">
+        <div>
+          <h2 id="list-heading">Tasks</h2>
+          <p id="summary" class="muted" role="status"></p>
+        </div>
+        <div>
+          <label for="filter">Show</label>
+          <select id="filter">
+            <option value="all">All tasks</option>
+            <option value="active">Active</option>
+            <option value="completed">Completed</option>
+          </select>
+        </div>
+      </div>
+      <p id="reorder-status" class="sr-only" role="status"></p>
+      <div id="task-list" role="region" aria-label="Task list" tabindex="0"></div>
+      <p id="empty" class="empty" hidden>No tasks yet. Click "New task" to get started.</p>
+    </section>
+  </main>
+  <footer class="site-footer">
+    Made by: <a href="/">Dmitrii Polkovnikov</a>
+  </footer>
+</body>
+</html>
