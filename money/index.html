@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Money planner</title>
+  <link rel="stylesheet" href="/money/styles.css">
+  <script src="/money/model.js" defer></script>
+  <script src="/money/app.js" defer></script>
+</head>
+<body>
+  <main>
+    <header>
+      <h1>Money planner</h1>
+      <p class="muted">Stored in this browser only. Export a backup.</p>
+    </header>
+    <noscript>Enable JavaScript to use the planner.</noscript>
+    <p id="error" class="error" role="alert" hidden></p>
+    <p id="notice" class="notice" role="status" hidden></p>
+    <fieldset id="workspace" disabled>
+      <legend class="sr-only">Money planner</legend>
+      <div class="month-navigation">
+        <div id="month-tabs" class="tabs" role="tablist" aria-label="Months, newest first"></div>
+        <div class="toolbar" role="group" aria-label="Manage months">
+          <button type="button" id="new-month" class="icon-button" aria-label="Start a new month" title="Start a new month">
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 5v14M5 12h14"/></svg>
+          </button>
+          <button type="button" id="import" class="secondary icon-button" aria-label="Import JSON" title="Import JSON">
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 16V3m-5 5 5-5 5 5M4 15v6h16v-6"/></svg>
+          </button>
+          <button type="button" id="export" class="secondary icon-button" aria-label="Export JSON" title="Export JSON">
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 3v13m-5-5 5 5 5-5M4 15v6h16v-6"/></svg>
+          </button>
+          <button type="button" id="clear-all" class="secondary danger icon-button" aria-label="Clear all months" title="Clear all months">
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M3 6h18M9 6V3h6v3M5 6l1 15h12l1-15M10 10v7M14 10v7"/></svg>
+          </button>
+        </div>
+      </div>
+      <p id="empty" class="empty" hidden>No months yet.</p>
+
+      <div id="month-panel" role="tabpanel" hidden>
+        <details id="month-settings" class="month-settings">
+          <summary id="month-heading">Month settings</summary>
+          <form id="month-form">
+            <div class="month-grid">
+              <div class="title-field">
+                <label for="month-title">Title</label>
+                <input id="month-title" maxlength="100" required autocomplete="off">
+              </div>
+              <div>
+                <label for="month-date">Month</label>
+                <input id="month-date" type="month" min="0001-01" max="9999-12" required title="Changing the month moves transaction dates.">
+              </div>
+              <div>
+                <label for="month-status">Status</label>
+                <select id="month-status">
+                  <option value="draft">Draft</option>
+                  <option value="active">Active</option>
+                </select>
+              </div>
+              <div>
+                <label for="opening">Opening balance</label>
+                <input id="opening" type="text" inputmode="decimal" maxlength="16" required>
+              </div>
+            </div>
+            <div class="form-actions">
+              <button type="submit">Save</button>
+              <button type="button" id="delete-month" class="secondary danger">Delete month</button>
+            </div>
+          </form>
+        </details>
+
+        <section aria-labelledby="list-heading">
+          <h2 id="list-heading">Transactions</h2>
+          <div class="transaction-columns" aria-hidden="true">
+            <span>Title</span><span>Amount</span><span>Date</span><span>Status</span><span></span>
+          </div>
+          <ul id="transactions" class="transactions"></ul>
+          <p id="empty-transactions" class="empty">No transactions yet.</p>
+          <button type="button" id="add-transaction" class="secondary add-transaction">Add</button>
+        </section>
+
+        <section class="panel totals-panel" aria-labelledby="totals-heading">
+          <h2 id="totals-heading">Totals</h2>
+          <dl class="totals">
+            <div><dt>Opening balance</dt><dd id="total-opening"></dd></div>
+            <div><dt>Total income</dt><dd id="total-income" class="income"></dd></div>
+            <div><dt>Total expenses</dt><dd id="total-expense"></dd></div>
+            <div><dt title="Opening balance plus received income, minus paid expenses.">Current balance</dt><dd id="total-current"></dd></div>
+            <div><dt>Reserved for expenses</dt><dd id="total-reserved"></dd></div>
+            <div><dt title="Current balance minus reserved funds.">Available now</dt><dd id="total-available"></dd></div>
+            <div class="closing"><dt>Projected closing balance</dt><dd id="total-closing"></dd></div>
+          </dl>
+        </section>
+      </div>
+    </fieldset>
+    <dialog id="json-dialog" aria-labelledby="json-heading">
+      <form id="json-form">
+        <div class="dialog-heading">
+          <h2 id="json-heading">JSON</h2>
+          <button type="button" id="close-json" class="secondary icon-button" aria-label="Close" title="Close">×</button>
+        </div>
+        <p id="json-hint" class="muted" hidden>Existing months stay unchanged. Duplicates are skipped; changed versions are added separately.</p>
+        <textarea id="json-text" aria-label="JSON" rows="10" spellcheck="false" autocomplete="off" placeholder="Paste JSON here"></textarea>
+        <p id="json-error" class="error" role="alert" hidden></p>
+        <p id="json-notice" class="notice" role="status" hidden></p>
+        <div class="dialog-actions">
+          <button type="button" id="paste-json" class="secondary">Paste</button>
+          <button type="button" id="copy-json">Copy</button>
+          <button type="submit" id="import-json">Import</button>
+        </div>
+      </form>
+    </dialog>
+  </main>
+  <footer class="site-footer">Made by: <a href="/">Dmitrii Polkovnikov</a></footer>
+</body>
+</html>

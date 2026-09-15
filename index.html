@@ -287,6 +287,11 @@
     line-height: 1.6;
   }
 
+  .side-tools h4{ color: var(--text-soft); margin-bottom: 0.5rem; }
+  .tool-links{ display: flex; gap: 1rem; font-family: var(--mono); font-size: 0.75rem; color: var(--text-soft); }
+  .tool-links a{ text-decoration: none; border-bottom: 1px solid var(--rule); }
+  .tool-links a:hover, .tool-links a:focus-visible{ color: var(--accent-dim); border-color: var(--accent-dim); }
+
   footer{
     max-width: var(--max);
     margin: 0 auto;
@@ -667,6 +672,13 @@
         <span>Snowboarding</span><span>Video Games</span><span>Board games</span>
       </div>
     </div>
+    <nav class="side-block side-tools" aria-labelledby="tools-heading">
+      <h4 id="tools-heading">// tools</h4>
+      <div class="tool-links">
+        <a href="/todo/" title="Todo list">/todo</a>
+        <a href="/money/" title="Money planner">/money</a>
+      </div>
+    </nav>
   </aside>
 </div>
 
