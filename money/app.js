@@ -6,6 +6,7 @@
   const get = id => document.getElementById(id);
   const workspace = get("workspace");
   const tabs = get("month-tabs");
+  const list = get("transactions");
   const monthForm = get("month-form");
   const jsonDialog = get("json-dialog");
   const jsonText = get("json-text");
@@ -17,6 +18,9 @@
   let monthFormSnapshot = "";
   let jsonMode = null;
   let dialogSession = 0;
+  let transactionOrder = [];
+  let drag = null;
+  let scrollFrame = null;
 
   const selectedMonth = () => data.months.find(month => month.id === selectedId);
   const orderedMonths = () => [...data.months].reverse().sort((a, b) => b.month.localeCompare(a.month));
@@ -95,6 +99,7 @@
     storedRaw = raw;
     selectedId = nextSelectedId;
     if (changedSelection || clearDrafts) transactionDrafts.clear();
+    if (changedSelection) transactionOrder = [];
     get("error").hidden = true;
     get("json-error").hidden = true;
     get("notice").hidden = true;
@@ -112,6 +117,7 @@
       if (!canLeaveMonth()) return;
       selectedId = id;
       transactionDrafts.clear();
+      transactionOrder = [];
       render();
     }
     if (focus) tabs.querySelector('[aria-selected="true"]').focus();
@@ -123,6 +129,13 @@
     const item = element("li");
     item.dataset.transactionId = transaction.id;
     const row = element("form", `transaction ${values.status}`);
+    const handle = element("button", "secondary transaction-drag");
+    handle.type = "button";
+    handle.setAttribute("aria-label", "Reorder transaction");
+    handle.title = "Drag to reorder, or use the Up and Down arrow keys";
+    const grip = element("span", "grip");
+    grip.setAttribute("aria-hidden", "true");
+    handle.append(grip);
     const input = (name, label, type = "text") => {
       const field = element("input", `transaction-${name}`);
       field.name = name;
@@ -207,9 +220,9 @@
       const month = selectedMonth();
       const exists = month.transactions.some(entry => entry.id === transaction.id);
       if (updateMonth({
-        ...month, transactions: exists
+        ...month, transactions: orderTransactions(exists
           ? month.transactions.map(entry => entry.id === transaction.id ? next : entry)
-          : [...month.transactions, next]
+          : [...month.transactions, next])
       }, { renderTransactions: false })) {
         transactionDrafts.delete(transaction.id);
         title.value = next.title;
@@ -245,17 +258,137 @@
         ...month, transactions: month.transactions.filter(entry => entry.id !== transaction.id)
       }, { renderTransactions: false })) {
         transactionDrafts.delete(transaction.id);
+        transactionOrder = transactionOrder.filter(id => id !== transaction.id);
         item.remove();
         get("empty-transactions").hidden = get("transactions").children.length > 0;
         get("add-transaction").focus();
       }
     });
-    row.append(title, amountGroup, date, status, remove, note);
+    row.append(handle, title, amountGroup, date, status, remove, note);
     item.append(row);
     return item;
   }
 
+  function orderTransactions(transactions) {
+    const byId = new Map(transactions.map(transaction => [transaction.id, transaction]));
+    const ids = new Set([...transactionOrder, ...byId.keys()]);
+    return [...ids].filter(id => byId.has(id)).map(id => byId.get(id));
+  }
+
+  function saveOrder(item, previousRows) {
+    const nextOrder = [...list.children].map(row => row.dataset.transactionId);
+    const month = selectedMonth();
+    const byId = new Map(month.transactions.map(transaction => [transaction.id, transaction]));
+    const transactions = nextOrder.filter(id => byId.has(id)).map(id => byId.get(id));
+    const changed = transactions.some((transaction, index) => transaction.id !== month.transactions[index].id);
+    if (changed && !updateMonth({ ...month, transactions }, { renderTransactions: false })) {
+      list.replaceChildren(...previousRows);
+    } else {
+      transactionOrder = nextOrder;
+      get("reorder-status").textContent = `Moved to position ${nextOrder.indexOf(item.dataset.transactionId) + 1} of ${nextOrder.length}.`;
+    }
+    item.querySelector(".transaction-drag").focus({ preventScroll: true });
+  }
+
+  function clearDrag() {
+    const current = drag;
+    drag = null;
+    if (scrollFrame !== null) cancelAnimationFrame(scrollFrame);
+    scrollFrame = null;
+    list.classList.remove("is-reordering");
+    if (current) {
+      current.item.classList.remove("dragging");
+      if (list.hasPointerCapture(current.pointerId)) list.releasePointerCapture(current.pointerId);
+    }
+    return current;
+  }
+
+  function finishDrag(commit) {
+    const current = clearDrag();
+    if (!current) return;
+    if (current.active && commit) {
+      saveOrder(current.item, current.previousRows);
+    } else {
+      if (current.active) list.replaceChildren(...current.previousRows);
+      current.item.querySelector(".transaction-drag").focus({ preventScroll: true });
+    }
+  }
+
+  function updateDragPosition() {
+    const siblings = [...list.children].filter(item => item !== drag.item);
+    const next = siblings.find(item => {
+      const bounds = item.getBoundingClientRect();
+      return drag.y < bounds.top + bounds.height / 2;
+    }) ?? null;
+    if (drag.item.nextElementSibling !== next) {
+      list.insertBefore(drag.item, next);
+      drag.item.querySelector(".transaction-drag").focus({ preventScroll: true });
+    }
+  }
+
+  function scrollDuringDrag() {
+    if (!drag?.active) return;
+    const edge = 64;
+    const speed = drag.y < edge ? -12 : drag.y > window.innerHeight - edge ? 12 : 0;
+    if (speed) {
+      window.scrollBy(0, speed);
+      updateDragPosition();
+    }
+    scrollFrame = requestAnimationFrame(scrollDuringDrag);
+  }
+
+  list.addEventListener("pointerdown", event => {
+    const handle = event.target.closest(".transaction-drag");
+    if (!handle || workspace.disabled || drag || !event.isPrimary || event.button !== 0) return;
+    event.preventDefault();
+    handle.focus({ preventScroll: true });
+    drag = {
+      pointerId: event.pointerId, item: handle.closest("li"), previousRows: [...list.children],
+      startY: event.clientY, y: event.clientY, active: false
+    };
+    list.setPointerCapture(event.pointerId);
+  });
+  document.addEventListener("pointermove", event => {
+    if (!drag || event.pointerId !== drag.pointerId) return;
+    drag.y = event.clientY;
+    if (!drag.active && Math.abs(drag.y - drag.startY) < 5) return;
+    if (!drag.active) {
+      drag.active = true;
+      drag.item.classList.add("dragging");
+      list.classList.add("is-reordering");
+      scrollFrame = requestAnimationFrame(scrollDuringDrag);
+    }
+    updateDragPosition();
+  });
+  document.addEventListener("pointerup", event => {
+    if (drag && event.pointerId === drag.pointerId) finishDrag(true);
+  });
+  for (const name of ["pointercancel", "lostpointercapture"]) {
+    document.addEventListener(name, event => {
+      if (drag && event.pointerId === drag.pointerId) finishDrag(false);
+    });
+  }
+  list.addEventListener("keydown", event => {
+    if (drag && event.key === "Escape") {
+      event.preventDefault();
+      finishDrag(false);
+      return;
+    }
+    const handle = event.target.closest(".transaction-drag");
+    if (!handle || workspace.disabled || drag || !["ArrowUp", "ArrowDown"].includes(event.key)) return;
+    event.preventDefault();
+    const item = handle.closest("li");
+    const up = event.key === "ArrowUp";
+    const neighbor = up ? item.previousElementSibling : item.nextElementSibling;
+    if (!neighbor) return;
+    const previousRows = [...list.children];
+    list.insertBefore(item, up ? neighbor : neighbor.nextElementSibling);
+    saveOrder(item, previousRows);
+  });
+  window.addEventListener("blur", () => finishDrag(false));
+
   function render(resetMonth = true, renderTransactions = true) {
+    if (renderTransactions) finishDrag(false);
     const months = orderedMonths();
     tabs.replaceChildren(...months.map((month, index) => {
       const tab = element("button", `month-${month.status}`, month.title);
@@ -298,9 +431,9 @@
     if (renderTransactions) {
       const ids = new Set(month.transactions.map(transaction => transaction.id));
       const pending = [...transactionDrafts.values()].filter(transaction => !ids.has(transaction.id));
-      get("transactions").replaceChildren(...[
-        ...[...month.transactions].sort((a, b) => a.date.localeCompare(b.date)), ...pending
-      ].map(transactionNode));
+      const transactions = orderTransactions([...month.transactions, ...pending]);
+      transactionOrder = transactions.map(transaction => transaction.id);
+      list.replaceChildren(...transactions.map(transactionNode));
     }
     get("empty-transactions").hidden = get("transactions").children.length > 0;
     renderTotals();
@@ -340,10 +473,13 @@
 
   get("add-transaction").addEventListener("click", () => {
     const month = selectedMonth();
+    const previousDate = list.lastElementChild?.querySelector('[name="date"]');
     const transaction = {
-      id: model.id(), title: "", amount: "", date: `${month.month}-01`, kind: "expense", status: "pending"
+      id: model.id(), title: "", amount: "", date: previousDate ? previousDate.value : `${month.month}-01`,
+      kind: "expense", status: "pending"
     };
     transactionDrafts.set(transaction.id, transaction);
+    transactionOrder.push(transaction.id);
     const row = transactionNode(transaction);
     get("transactions").append(row);
     get("empty-transactions").hidden = true;
@@ -518,6 +654,7 @@
   });
   window.addEventListener("storage", event => {
     if (event.storageArea !== localStorage || (event.key !== storageKey && event.key !== null)) return;
+    finishDrag(false);
     showError("Data changed in another browser tab. Reload the page to load the latest version. Unsaved input will be lost.");
     workspace.disabled = true;
     get("import-json").disabled = true;
