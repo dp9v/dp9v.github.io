@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Dmitrii Polkovnikov — Software Engineer</title>
-<meta name="description" content="Dmitrii Polkovnikov — Software Engineer, backend & cloud systems, Prague, Czech Republic.">
+<title>Dmitrii Polkovnikov — Разработчик</title>
+<meta name="description" content="Dmitrii Polkovnikov — разработчик, backend и облачные системы, Прага, Чехия.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -415,21 +415,21 @@
 </head>
 <body>
 
-<nav class="language-switcher" aria-label="Language">
-  <a href="/ru/" lang="ru">RU</a>
+<nav class="language-switcher" aria-label="Язык">
+  <a href="/" lang="en">EN</a>
 </nav>
-<button id="print-btn" onclick="printResume()">↓ Download PDF</button>
+<button id="print-btn" onclick="printResume()">↓ Скачать PDF</button>
 
 <header class="hero">
   <div class="hero-inner">
     <div class="avatar-wrap">
-      <img id="avatar" src="photo.jpg" alt="Dmitrii Polkovnikov"
+      <img id="avatar" src="../photo.jpg" alt="Dmitrii Polkovnikov"
            onerror="this.style.display='none'; document.getElementById('avatar-fallback').style.display='flex';">
       <div id="avatar-fallback">DP</div>
     </div>
     <div class="hero-text">
       <h1>Dmitrii Polkovnikov</h1>
-      <p class="role">Software Engineer — Backend &amp; Cloud Systems</p>
+      <p class="role">Разработчик — backend и облачные системы</p>
     </div>
   </div>
 </header>
@@ -438,54 +438,54 @@
   <main>
 
     <section class="summary">
-      <p class="eyebrow">// summary</p>
+      <p class="eyebrow">// кратко</p>
       <div class="summary-lines">
-        <p>Software engineer with 10+ years of experience building and operating backend and distributed systems.</p>
-        <p>Currently working at Microsoft on Azure infrastructure, data processing pipelines, internal developer tools, and private-cloud solutions. Strong background in Java and Spring, with hands-on experience in C#/.NET, React, Python, and cloud technologies.</p>
-        <p>Comfortable owning systems end to end — from architecture and implementation to production support, incident response, and mentoring.</p>
+        <p>Разработчик с более чем 10-летним опытом разработки и сопровождения backend- и распределённых систем.</p>
+        <p>В Microsoft работаю над инфраструктурой Azure, конвейерами обработки данных, внутренними инструментами для разработчиков и решениями для частных облаков. Основной опыт — Java и Spring; также работаю с C#/.NET, React, Python и облачными технологиями.</p>
+        <p>Беру на себя полный цикл задач: от архитектуры и реализации до поддержки production, реагирования на инциденты и наставничества.</p>
       </div>
     </section>
 
     <section class="experience">
-      <p class="eyebrow">// experience</p>
+      <p class="eyebrow">// опыт</p>
 
       <article class="log-entry">
         <div class="entry-meta">
-          <span class="entry-date">2022 — present</span>
+          <span class="entry-date">2022 — настоящее время</span>
         </div>
         <div class="entry-body">
-          <h3>Software Engineer II <span class="entry-company">· Microsoft</span></h3>
-          <p class="entry-location">Prague (Remote)</p>
+          <h3>Ведущий разработчик <span class="entry-company">· Microsoft</span></h3>
+          <p class="entry-location">Прага (удалённо)</p>
           <ul>
-            <li>Stabilized project infrastructure by migrating existing Azure resources to ARM templates, accelerating new environment provisioning and testing</li>
-            <li>Implemented monitoring for internal systems using Azure Application Insights, reducing time to detect and resolve incidents</li>
-            <li>Built data-processing pipelines with PySpark and Azure Synapse to detect EU Data Boundary violations, handling sources ranging from thousands to tens of millions of records</li>
-            <li>Developed an internal tool in C# (.NET) and React for tracking dependencies between Azure services and components, used by multiple infrastructure teams to prepare cloud deployments in new regions; led a major database schema refactoring for the project, managing a team of 3 engineers</li>
-            <li>Designed and built, as part of a team, a system for deploying AI models into private clouds where direct developer access was restricted by legal requirements, supporting ~4–5 deployments per week through on-call rotation and asynchronous communication via Azure Event Hubs</li>
-            <li>Used Kusto Query Language (KQL) to analyze logs and query telemetry</li>
+            <li>Повысил стабильность инфраструктуры проекта, перенеся существующие ресурсы Azure в шаблоны ARM и ускорив создание и тестирование новых окружений</li>
+            <li>Внедрил мониторинг внутренних систем с помощью Azure Application Insights, сократив время обнаружения и устранения инцидентов</li>
+            <li>Создал конвейеры обработки данных на PySpark и Azure Synapse для выявления нарушений EU Data Boundary, обрабатывая от тысяч до десятков миллионов записей</li>
+            <li>Разработал внутренний инструмент на C# (.NET) и React для отслеживания зависимостей между сервисами и компонентами Azure; им пользуются несколько инфраструктурных команд для подготовки развёртываний в новых регионах. Руководил масштабным рефакторингом схемы базы данных и командой из 3 инженеров</li>
+            <li>В команде спроектировал и создал систему развёртывания AI-моделей в частных облаках, где прямой доступ разработчиков ограничен законодательством; поддерживал около 4–5 развёртываний в неделю в рамках дежурств и асинхронного взаимодействия через Azure Event Hubs</li>
+            <li>Использовал язык запросов Kusto (KQL) для анализа логов и телеметрии</li>
           </ul>
           <div class="entry-skills">
             <span>Azure</span><span>C# / .NET</span><span>React</span><span>GitHub Copilot</span><span>Application Insights</span>
-            <span>PySpark</span><span>Azure Synapse</span><span>ARM Templates</span>
-            <span>Database Design</span><span>Team Leadership</span><span>EventHub</span><span>Distributed Systems</span><span>KQL</span>
+            <span>PySpark</span><span>Azure Synapse</span><span>Шаблоны ARM</span>
+            <span>Проектирование БД</span><span>Руководство командой</span><span>EventHub</span><span>Распределённые системы</span><span>KQL</span>
           </div>
         </div>
       </article>
 
       <article class="log-entry">
         <div class="entry-meta">
-          <span class="entry-date">2023 — present</span>
-          <span class="entry-tag">part-time</span>
+          <span class="entry-date">2023 — настоящее время</span>
+          <span class="entry-tag">неполная занятость</span>
         </div>
         <div class="entry-body">
-          <h3>Java Mentor <span class="entry-company">· Hexlet Online School</span></h3>
-          <p class="entry-location">Remote</p>
+          <h3>Ментор по Java <span class="entry-company">· Онлайн-школа Hexlet</span></h3>
+          <p class="entry-location">Удалённо</p>
           <ul>
-            <li>Recorded a course on object-oriented programming in Java and conducted live sessions on various Java topics</li>
-            <li>Reviewed and provided feedback on numerous student projects</li>
+            <li>Записал курс по объектно-ориентированному программированию на Java и проводил занятия по различным темам Java</li>
+            <li>Проверил множество студенческих проектов и предоставил обратную связь</li>
           </ul>
           <div class="entry-skills">
-            <span>Java</span><span>OOP</span><span>Teaching &amp; Mentoring</span><span>Code Review</span>
+            <span>Java</span><span>OOP</span><span>Обучение и наставничество</span><span>Ревью кода</span>
           </div>
         </div>
       </article>
@@ -495,19 +495,19 @@
           <span class="entry-date">2020 — 2022</span>
         </div>
         <div class="entry-body">
-          <h3>Java Developer <span class="entry-company">· Alfa-Bank</span></h3>
-          <p class="entry-location">Remote</p>
+          <h3>Разработчик Java <span class="entry-company">· Alfa-Bank</span></h3>
+          <p class="entry-location">Удалённо</p>
           <ul>
-            <li>Developed and deployed backend services for the B2C mobile banking application at Alfa-Bank, one of Russia's largest private banks, serving a large user base</li>
-            <li>Contributed to internal technical libraries and Spring starters adopted organization-wide by 20+ teams, improving development efficiency and standardizing practices across projects</li>
-            <li>Used Kafka for processing log data streams and MongoDB for data storage</li>
-            <li>Identified and fixed issues in deployment scripts for the logging infrastructure</li>
-            <li>Took on DevOps responsibilities, using Ansible to automate server infrastructure provisioning</li>
-            <li>Researched and resolved bugs across backend services</li>
+            <li>Разрабатывал и запускал backend-сервисы мобильного банковского приложения B2C в Альфа-Банке, одном из крупнейших частных банков России</li>
+            <li>Участвовал в развитии внутренних технических библиотек и Spring starters, используемых более чем 20 командами, повышая эффективность разработки и стандартизируя практики</li>
+            <li>Использовал Kafka для обработки потоков логов и MongoDB для хранения данных</li>
+            <li>Находил и исправлял проблемы в скриптах развёртывания инфраструктуры логирования</li>
+            <li>Выполнял DevOps-задачи, используя Ansible для автоматизации подготовки серверной инфраструктуры</li>
+            <li>Исследовал и устранял ошибки в backend-сервисах</li>
           </ul>
           <div class="entry-skills">
-            <span>Java</span><span>Spring Framework</span><span>Microservices</span><span>Kafka</span>
-            <span>MongoDB</span><span>Ansible</span><span>DevOps</span><span>Distributed Systems</span>
+            <span>Java</span><span>Spring Framework</span><span>Микросервисы</span><span>Kafka</span>
+            <span>MongoDB</span><span>Ansible</span><span>DevOps</span><span>Распределённые системы</span>
           </div>
         </div>
       </article>
@@ -517,20 +517,20 @@
           <span class="entry-date">2019 — 2020</span>
         </div>
         <div class="entry-body">
-          <h3>Java Developer <span class="entry-company">· Yandex (Kinopoisk.HD)</span></h3>
-          <p class="entry-location">Russia</p>
+          <h3>Разработчик Java <span class="entry-company">· Yandex (Kinopoisk.HD)</span></h3>
+          <p class="entry-location">Россия</p>
           <ul>
-            <li>Implemented caching for data loaded on the main screen, reducing load time from ~10 seconds to under 1 second</li>
-            <li>Designed and built a bundle-purchase feature combining movie purchases with service subscriptions while architecting the integration between two systems with different billing models and maintaining data consistency</li>
-            <li>Developed and launched multiple features for a high-load VOD service handling up to 1,000 RPS on peak API endpoints</li>
-            <li>Identified and fixed critical bugs to improve system stability</li>
-            <li>Provided daily on-call support for two major services: Kinopoisk (a key, fast-growing VOD platform) and Yandex.TV Guide (a major ad-revenue generator)</li>
-            <li>Conducted code reviews and managed large pull requests to maintain high code quality</li>
-            <li>Supported and deployed production applications built on Java, Spring, PostgreSQL, and Cassandra</li>
+            <li>Реализовал кэширование данных главного экрана, сократив время загрузки примерно с 10 до менее 1 секунды</li>
+            <li>Спроектировал и создал функцию пакетной покупки фильмов вместе с подпиской, интегрировав системы с разными моделями биллинга и обеспечив согласованность данных</li>
+            <li>Разработал и запустил несколько функций высоконагруженного VOD-сервиса с нагрузкой до 1 000 RPS на пиковых API-эндпоинтах</li>
+            <li>Находил и исправлял критические ошибки для повышения стабильности системы</li>
+            <li>Ежедневно поддерживал два крупных сервиса: Кинопоиск (быстрорастущую VOD-платформу) и Яндекс.Телепрограмму (значимый источник рекламной выручки)</li>
+            <li>Проводил ревью кода и работал с большими pull request для поддержания высокого качества кода</li>
+            <li>Поддерживал и развёртывал production-приложения на Java, Spring, PostgreSQL и Cassandra</li>
           </ul>
           <div class="entry-skills">
             <span>Java</span><span>Spring Framework</span><span>PostgreSQL</span><span>Cassandra</span>
-            <span>High-Load Systems</span><span>System Architecture</span><span>Billing Integration</span><span>On-Call</span>
+            <span>Высокая нагрузка</span><span>Системная архитектура</span><span>Интеграция биллинга</span><span>Дежурства</span>
           </div>
         </div>
       </article>
@@ -540,18 +540,18 @@
           <span class="entry-date">2017 — 2019</span>
         </div>
         <div class="entry-body">
-          <h3>Java Developer <span class="entry-company">· I-Teco New Technologies</span></h3>
-          <p class="entry-location">Innopolis, Russia</p>
+          <h3>Разработчик Java <span class="entry-company">· I-Teco — новые технологии</span></h3>
+          <p class="entry-location">Innopolis, Россия</p>
           <ul>
-            <li>Developed a loan and mortgage management application for a financial institution</li>
-            <li>Designed and implemented several microservices for a large B2B banking system</li>
-            <li>Built front-end functionality using AngularJS and React</li>
-            <li>Wrote unit and integration tests with JUnit 5</li>
-            <li>Mentored an intern and conducted code reviews</li>
+            <li>Разработал приложение для управления кредитами и ипотекой для финансовой организации</li>
+            <li>Спроектировал и реализовал несколько микросервисов для крупной B2B-банковской системы</li>
+            <li>Разработал frontend-функциональность на AngularJS и React</li>
+            <li>Написал модульные и интеграционные тесты с JUnit 5</li>
+            <li>Наставлял стажёра и проводил ревью кода</li>
           </ul>
           <div class="entry-skills">
-            <span>Java</span><span>Spring Framework</span><span>EJB 3.0</span><span>Microservices</span>
-            <span>AngularJS</span><span>React</span><span>JUnit 5</span><span>Mentoring</span>
+            <span>Java</span><span>Spring Framework</span><span>EJB 3.0</span><span>Микросервисы</span>
+            <span>AngularJS</span><span>React</span><span>JUnit 5</span><span>Наставничество</span>
           </div>
         </div>
       </article>
@@ -561,16 +561,16 @@
           <span class="entry-date">2014 — 2015</span>
         </div>
         <div class="entry-body">
-          <h3>Software Engineer <span class="entry-company">· Information Center of Irkutsk Region</span></h3>
-          <p class="entry-location">Irkutsk, Russia</p>
+          <h3>Разработчик <span class="entry-company">· Информационный центр Иркутской области</span></h3>
+          <p class="entry-location">Иркутск, Россия</p>
           <ul>
-            <li>Developed and maintained the official website of the Irkutsk Region Administration</li>
-            <li>Contributed to an Electronic Document Management (EDM) system</li>
-            <li>Built automation scripts in Python and front-end features using HTML/CSS/JavaScript</li>
-            <li>Worked with the Bitrix PHP framework and managed open-source solutions</li>
+            <li>Разрабатывал и поддерживал официальный сайт администрации Иркутской области</li>
+            <li>Участвовал в разработке системы электронного документооборота (СЭД)</li>
+            <li>Создавал скрипты автоматизации на Python и frontend-функции на HTML/CSS/JavaScript</li>
+            <li>Работал с PHP-фреймворком Bitrix и сопровождал open-source решения</li>
           </ul>
           <div class="entry-skills">
-            <span>PHP</span><span>Bitrix</span><span>Python</span><span>HTML/CSS/JS</span><span>Automation</span>
+            <span>PHP</span><span>Bitrix</span><span>Python</span><span>HTML/CSS/JS</span><span>Автоматизация</span>
           </div>
         </div>
       </article>
@@ -580,13 +580,13 @@
           <span class="entry-date">2013 — 2014</span>
         </div>
         <div class="entry-body">
-          <h3>Python Developer <span class="entry-company">· Center of Web Decisions</span></h3>
-          <p class="entry-location">Irkutsk, Russia</p>
+          <h3>Разработчик Python <span class="entry-company">· Центр веб-решений</span></h3>
+          <p class="entry-location">Иркутск, Россия</p>
           <ul>
-            <li>Developed business websites and e-commerce platforms using Django</li>
-            <li>Migrated legacy PHP-based sites to Python for improved maintainability</li>
-            <li>Managed virtual dedicated server infrastructure running Ubuntu</li>
-            <li>Worked with SVN and MySQL</li>
+            <li>Разрабатывал бизнес-сайты и e-commerce платформы на Django</li>
+            <li>Переносил legacy-сайты на PHP на Python для улучшения сопровождаемости</li>
+            <li>Администрировал инфраструктуру виртуальных выделенных серверов на Ubuntu</li>
+            <li>Работал с SVN и MySQL</li>
           </ul>
           <div class="entry-skills">
             <span>Python</span><span>Django</span><span>MySQL</span><span>Ubuntu</span><span>SVN</span>
@@ -599,12 +599,12 @@
           <span class="entry-date">2011 — 2013</span>
         </div>
         <div class="entry-body">
-          <h3>Data Engineer <span class="entry-company">· Institute of Education Development of Irkutsk Region</span></h3>
-          <p class="entry-location">Irkutsk, Russia</p>
+          <h3>Инженер по данным <span class="entry-company">· Институт развития образования Иркутской области</span></h3>
+          <p class="entry-location">Иркутск, Россия</p>
           <ul>
-            <li>Built a student database and SQL-based reporting system for exam analytics</li>
-            <li>Developed applications for education quality monitoring using C# (WinForms) and Java (Swing)</li>
-            <li>Worked with MS SQL Server, optimizing queries and data retrieval</li>
+            <li>Создал базу данных учащихся и систему отчётности на SQL для анализа экзаменов</li>
+            <li>Разрабатывал приложения для мониторинга качества образования на C# (WinForms) и Java (Swing)</li>
+            <li>Работал с MS SQL Server, оптимизируя запросы и получение данных</li>
           </ul>
           <div class="entry-skills">
             <span>C# / WinForms</span><span>Java / Swing</span><span>MS SQL Server</span><span>SQL</span>
@@ -617,7 +617,7 @@
 
   <aside>
     <div class="side-block">
-      <h4>// contact</h4>
+      <h4>// контакты</h4>
       <ul class="contact-list">
         <li>
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22 6 12 13 2 6"></polyline></svg>
@@ -629,7 +629,7 @@
         </li>
         <li>
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
-          <span>Prague, Czech Republic</span>
+          <span>Прага, Чехия</span>
         </li>
         <li>
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-4.3 1.4-4.3-2.5-6-3m12 5v-3.5c0-1 .1-1.4-.5-2 2.8-.3 5.5-1.4 5.5-6a4.6 4.6 0 0 0-1.3-3.2 4.2 4.2 0 0 0-.1-3.2s-1.1-.3-3.5 1.3a12.3 12.3 0 0 0-6.2 0C6.5 2.8 5.4 3.1 5.4 3.1a4.2 4.2 0 0 0-.1 3.2A4.6 4.6 0 0 0 4 9.5c0 4.6 2.7 5.7 5.5 6-.6.6-.6 1.2-.5 2V21"></path></svg>
@@ -647,36 +647,36 @@
     </div>
 
     <div class="side-block">
-      <h4>// core_stack</h4>
+      <h4>// основные технологии</h4>
       <div class="chip-cloud">
         <span>Java</span><span>Spring</span><span>Azure</span><span>C# / .NET</span>
         <span>TypeScript</span><span>React</span><span>PySpark</span><span>Azure Synapse</span><span>KQL</span>
-        <span>Distributed Systems</span><span>Microservices</span><span>Kafka</span><span>MongoDB</span>
+        <span>Распределённые системы</span><span>Микросервисы</span><span>Kafka</span><span>MongoDB</span>
         <span>PostgreSQL</span><span>Cassandra</span><span>Ansible</span><span>DevOps</span>
         <span>Golang</span><span>Python</span>
       </div>
     </div>
 
     <div class="side-block">
-      <h4>// education</h4>
+      <h4>// образование</h4>
       <div class="side-list">
         <div class="side-item">
-          <h5>Irkutsk State University</h5>
-          <p>M.Sc., Applied Math &amp; Informatics · 2010–2015</p>
+          <h5>Иркутский государственный университет</h5>
+          <p>Магистр, прикладная математика и информатика · 2010–2015</p>
         </div>
         <div class="side-item">
-          <h5>Innopolis University</h5>
-          <p>Java Development · 2017</p>
+          <h5>Университет Иннополис</h5>
+          <p>Разработка на Java · 2017</p>
         </div>
         <div class="side-item">
-          <h5>Yandex School of Data Analysis</h5>
+          <h5>Школа анализа данных Яндекса</h5>
           <p>Golang · 2020</p>
         </div>
       </div>
     </div>
 
     <div class="side-block">
-      <h4>// certifications</h4>
+      <h4>// сертификаты</h4>
       <div class="side-list">
         <div class="side-item">
           <h5>Azure Developer Associate</h5>
@@ -690,29 +690,29 @@
     </div>
 
     <div class="side-block">
-      <h4>// languages</h4>
-      <p class="plain">Russian — Native<br>English — Professional working proficiency<br>Czech — Conversational</p>
+      <h4>// языки</h4>
+      <p class="plain">Русский — родной<br>Английский — профессиональный уровень<br>Чешский — разговорный</p>
     </div>
 
     <div class="side-block">
-      <h4>// interests</h4>
+      <h4>// интересы</h4>
       <div class="chip-cloud">
-        <span>Hiking</span><span>Boxing</span><span>Climbing</span><span>Cycling</span>
-        <span>Snowboarding</span><span>Video Games</span><span>Board games</span>
+        <span>Походы</span><span>Бокс</span><span>Скалолазание</span><span>Велоспорт</span>
+        <span>Сноуборд</span><span>Видеоигры</span><span>Настольные игры</span>
       </div>
     </div>
     <nav class="side-block side-tools" aria-labelledby="tools-heading">
-      <h4 id="tools-heading">// tools</h4>
+      <h4 id="tools-heading">// инструменты</h4>
       <div class="tool-links">
-        <a href="/todo/" title="Todo list">/todo</a>
-        <a href="/money/" title="Money planner">/money</a>
+        <a href="/todo/" title="Список задач">/todo</a>
+        <a href="/money/" title="Планировщик денег">/money</a>
       </div>
     </nav>
   </aside>
 </div>
 
 <footer>
-  Last updated August 2026 · Built as a static page for GitHub Pages
+  Обновлено в августе 2026 · Статическая страница для GitHub Pages
 </footer>
 
 <script>
